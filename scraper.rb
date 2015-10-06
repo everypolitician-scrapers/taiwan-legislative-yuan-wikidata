@@ -20,7 +20,7 @@ def wikinames(url)
     names = table.xpath('.//tr/td[%d]//a[not(@class="new")]/@title' % (wantcol+1)).map(&:text)
     puts "#{title}: #{names.count}"
     names
-  end
+  end.flatten(1)
 end
 
 names = wikinames('https://zh.wikipedia.org/wiki/%E7%AC%AC8%E5%B1%86%E4%B8%AD%E8%8F%AF%E6%B0%91%E5%9C%8B%E7%AB%8B%E6%B3%95%E5%A7%94%E5%93%A1%E5%90%8D%E5%96%AE')
