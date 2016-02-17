@@ -7,9 +7,10 @@ require 'nokogiri'
 require 'open-uri'
 require 'pry'
 require 'rest-client'
+require 'wikidata/fetcher'
 
 def noko_for(url)
-  Nokogiri::HTML(open(url).read) 
+  Nokogiri::HTML(open(URI.escape(URI.unescape(url))).read) 
 end
 
 def wikinames(url)
@@ -24,17 +25,12 @@ def wikinames(url)
   end.flatten(1)
 end
 
-names = wikinames('https://zh.wikipedia.org/wiki/%E7%AC%AC8%E5%B1%86%E4%B8%AD%E8%8F%AF%E6%B0%91%E5%9C%8B%E7%AB%8B%E6%B3%95%E5%A7%94%E5%93%A1%E5%90%8D%E5%96%AE')
-abort "No names" if names.count.zero?
+names_8 = wikinames('https://zh.wikipedia.org/wiki/第8屆中華民國立法委員名單')
+abort "No names for term 8" if names_8.count.zero?
 
-WikiData.ids_from_pages('zh', names).each_with_index do |p, i|
-  data = WikiData::Fetcher.new(id: p.last).data('zh') rescue nil
-  unless data
-    warn "No data for #{p}"
-    next
-  end
-  ScraperWiki.save_sqlite([:id], data)
-end
+names_9 = wikinames('https://zh.wikipedia.org/wiki/第9屆中華民國立法委員名單')
+abort "No names for term 9" if names_9.count.zero?
 
-warn RestClient.post ENV['MORPH_REBUILDER_URL'], {} if ENV['MORPH_REBUILDER_URL']
+EveryPolitician::Wikidata.scrape_wikidata(names: { zh: (names_8 + names_9).uniq }, output: true)
+EveryPolitician::Wikidata.notify_rebuilder
 
