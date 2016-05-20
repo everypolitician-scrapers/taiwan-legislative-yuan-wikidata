@@ -43,6 +43,6 @@ abort "No names for term 8" if names_8.count.zero?
 names_9 = wikinames9('https://zh.wikipedia.org/wiki/第9屆中華民國立法委員名單')
 abort "No names for term 9" if names_9.count.zero?
 
-EveryPolitician::Wikidata.scrape_wikidata(names: { zh: (names_8 + names_9).uniq }, output: false)
+EveryPolitician::Wikidata.scrape_wikidata(names: { zh: names_8 | names_9 }, output: false)
 EveryPolitician::Wikidata.notify_rebuilder
 
