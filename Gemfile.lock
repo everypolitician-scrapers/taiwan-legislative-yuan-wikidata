@@ -8,9 +8,9 @@ GIT
 
 GIT
   remote: https://github.com/everypolitician/wikidata-fetcher.git
-  revision: 1672ca0c839eba00db3278fca29b37a89035ac0f
+  revision: 6cbd151eb97f9fdf3a24e9b8ec474b68b4c29034
   specs:
-    wikidata-fetcher (0.20.1)
+    wikidata-fetcher (0.20.2)
       colorize
       diskcached
       json
@@ -137,7 +137,7 @@ DEPENDENCIES
   rubocop
   scraperwiki!
   sqlite_magic!
-  wikidata-fetcher (>= 0.20.1)!
+  wikidata-fetcher (>= 0.20.2)!
   wikisnakker!
 
 RUBY VERSION
